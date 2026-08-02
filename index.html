@@ -1,137 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>AI Smart Compiler</title>
-
-
 <link rel="stylesheet" href="style.css">
-
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.0/min/vs/loader.min.js"></script>
-
-
 </head>
-
-
 <body>
-
-
 <div class="container">
-
-
     <!-- Sidebar -->
-
     <div class="sidebar">
-
         <h2>AI Compiler</h2>
-
         <ul>
-
             <li class="active">Dashboard</li>
-
             <li>Projects</li>
-
             <li>History</li>
-
             <li>AI Analysis</li>
-
             <li>Settings</li>
-
         </ul>
-
     </div>
-
-
-
     <!-- Main -->
-
     <div class="main">
-
-
         <!-- Navbar -->
-
         <div class="navbar">
-
-
             <h1>AI Smart Compiler</h1>
-
-
             <select id="language">
-
                 <option value="python">Python</option>
-
                 <option value="cpp">C++</option>
-
                 <option value="java">Java</option>
-
                 <option value="javascript">JavaScript</option>
-
-
             </select>
-
-
-
             <button id="runBtn">
-
                 ▶ Run Code
-
             </button>
-
-
         </div>
-
-
-
-
         <!-- Editor -->
-
-
         <div class="editor-container">
-
-
             <div id="editor"></div>
-
-
         </div>
-
-
-
-
         <!-- Bottom -->
-
-
         <div class="bottom">
-
-
             <div class="panel">
-
-
                 <div class="result-container">
-
-
                     <div class="result-card">
-
-
                         <h3>⚡ Output</h3>
-
-
                         <pre id="output"></pre>
-
-
                     </div>
-
-
-
-
                     <div class="result-card">
 
 
