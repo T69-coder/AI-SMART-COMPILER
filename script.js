@@ -148,7 +148,7 @@ runBtn.addEventListener("click", async () => {
 
 
         const response = await fetch(
-            "https://ai-smart-compiler.onrender.com/compile",
+            "https://ai-smart-compiler-3.onrender.com/compile",
             {
                 method: "POST",
 
