@@ -1,36 +1,65 @@
-import io
+import subprocess
 import sys
-import traceback
+import os
+import tempfile
 
 
 def run_python(code):
 
-    output = io.StringIO()
-    old_stdout = sys.stdout
-
     try:
 
-        sys.stdout = output
+        # Har request ke liye alag temporary folder banate hain
+        # taaki 2 users ek saath run karein to files overwrite na hon
+        with tempfile.TemporaryDirectory() as tmp_dir:
 
-        exec(code)
+            source_path = os.path.join(tmp_dir, "temp_script.py")
 
-        return {
-            "status": "success",
-            "output": output.getvalue()
-        }
+            with open(source_path, "w") as file:
+                file.write(code)
 
+            # Code ko ALAG process mein chalate hain (seedha exec() nahi)
+            # Isse: (1) infinite loop poore server ko hang nahi karega,
+            # (2) crash sirf us chhote process tak seemit rahega,
+            # (3) timeout laga sakte hain jo pehle bilkul nahi tha
+            run_process = subprocess.run(
+                [sys.executable, source_path],
+                capture_output=True,
+                text=True,
+                timeout=5,
+                cwd=tmp_dir
+            )
 
-    except Exception:
+            if run_process.returncode != 0:
+
+                return {
+                    "status": "error",
+                    "details": {
+                        "type": "Runtime Error",
+                        "message": run_process.stderr
+                    }
+                }
+
+            return {
+                "status": "success",
+                "output": run_process.stdout
+            }
+
+    except subprocess.TimeoutExpired:
 
         return {
             "status": "error",
             "details": {
                 "type": "Runtime Error",
-                "message": traceback.format_exc()
+                "message": "Python execution timeout."
             }
         }
 
+    except Exception as e:
 
-    finally:
-
-        sys.stdout = old_stdout
+        return {
+            "status": "error",
+            "details": {
+                "type": "Runtime Error",
+                "message": str(e)
+            }
+        }

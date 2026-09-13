@@ -14,130 +14,152 @@
     <div class="sidebar">
         <h2>AI Compiler</h2>
         <ul>
-            <li class="active">Dashboard</li>
-            <li>Projects</li>
-            <li>History</li>
-            <li>AI Analysis</li>
-            <li>Settings</li>
+            <li class="active" data-page="dashboard">Dashboard</li>
+            <li data-page="projects">Projects</li>
+            <li data-page="history">History</li>
+            <li data-page="analysis">AI Analysis</li>
+            <li data-page="settings">Settings</li>
         </ul>
     </div>
     <!-- Main -->
     <div class="main">
-        <!-- Navbar -->
-        <div class="navbar">
-            <h1>AI Smart Compiler</h1>
-            <select id="language">
-                <option value="python">Python</option>
-                <option value="cpp">C++</option>
-                <option value="java">Java</option>
-                <option value="javascript">JavaScript</option>
-            </select>
-            <button id="runBtn">
-                ▶ Run Code
-            </button>
+
+        <!-- ============================= -->
+        <!-- PAGE: Dashboard (Compiler)     -->
+        <!-- ============================= -->
+        <div class="page active" id="page-dashboard">
+
+            <!-- Navbar -->
+            <div class="navbar">
+                <h1>AI Smart Compiler</h1>
+                <select id="language">
+                    <option value="python">Python</option>
+                    <option value="cpp">C++</option>
+                    <option value="java">Java</option>
+                    <option value="javascript">JavaScript</option>
+                </select>
+                <button id="runBtn">
+                    ▶ Run Code
+                </button>
+            </div>
+
+            <!-- Editor -->
+            <div class="editor-container">
+                <div id="editor"></div>
+            </div>
+
+            <!-- Bottom -->
+            <div class="bottom">
+                <div class="panel">
+                    <div class="result-container">
+                        <div class="result-card">
+                            <h3>⚡ Output</h3>
+                            <pre id="output"></pre>
+                        </div>
+                        <div class="result-card">
+                            <h3>🤖 AI Explanation</h3>
+                            <pre id="explanation"></pre>
+                        </div>
+                        <div class="result-card">
+                            <h3>💡 AI Suggestions</h3>
+                            <pre id="aiSuggestions"></pre>
+                        </div>
+                        <div class="result-card">
+                            <h3>🛠 AI Error Fix</h3>
+                            <pre id="errorFix"></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h3>AI Suggestions</h3>
+                    <ul id="suggestionList">
+                        <li>Use meaningful variable names.</li>
+                        <li>Avoid unnecessary loops.</li>
+                        <li>Optimize nested iterations.</li>
+                    </ul>
+                </div>
+            </div>
+
         </div>
-        <!-- Editor -->
-        <div class="editor-container">
-            <div id="editor"></div>
-        </div>
-        <!-- Bottom -->
-        <div class="bottom">
-            <div class="panel">
-                <div class="result-container">
-                    <div class="result-card">
-                        <h3>⚡ Output</h3>
-                        <pre id="output"></pre>
-                    </div>
-                    <div class="result-card">
 
+        <!-- ============================= -->
+        <!-- PAGE: Projects (100 Ideas)     -->
+        <!-- ============================= -->
+        <div class="page" id="page-projects" style="display: none;">
 
-                        <h3>🤖 AI Explanation</h3>
+            <div class="navbar">
+                <h1>Project Ideas</h1>
+            </div>
 
+            <div class="projects-page-content">
 
-                        <pre id="explanation"></pre>
+                <!-- Filters -->
+                <div class="projects-filters">
 
+                    <input
+                        type="text"
+                        id="projectSearch"
+                        placeholder="🔍 Search project ideas..."
+                    >
 
-                    </div>
+                    <select id="languageFilter">
+                        <option value="all">All Languages</option>
+                        <option value="Python">Python</option>
+                        <option value="Java">Java</option>
+                        <option value="C++">C++</option>
+                        <option value="JavaScript">JavaScript</option>
+                    </select>
 
+                    <select id="levelFilter">
+                        <option value="all">All Levels</option>
+                        <option value="Basic">Basic</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Advanced">Advanced</option>
+                    </select>
 
-
-
-                    <div class="result-card">
-
-
-                        <h3>💡 AI Suggestions</h3>
-
-
-                        <pre id="aiSuggestions"></pre>
-
-
-                    </div>
-
-
-
-
-                    <div class="result-card">
-
-
-                        <h3>🛠 AI Error Fix</h3>
-
-
-                        <pre id="errorFix"></pre>
-
-
-                    </div>
-
-
+                    <button id="surpriseBtn">🎲 Surprise Me</button>
 
                 </div>
 
+                <p id="projectCount" class="projects-count"></p>
+
+                <!-- Project Cards Grid -->
+                <div id="projectsGrid" class="projects-grid"></div>
 
             </div>
-
-
-
-
-
-            <div class="panel">
-
-
-                <h3>AI Suggestions</h3>
-
-
-                <ul id="suggestionList">
-
-
-                    <li>Use meaningful variable names.</li>
-
-
-                    <li>Avoid unnecessary loops.</li>
-
-
-                    <li>Optimize nested iterations.</li>
-
-
-                </ul>
-
-
-            </div>
-
-
 
         </div>
 
+        <!-- ============================= -->
+        <!-- PAGE: Placeholder pages        -->
+        <!-- ============================= -->
+        <div class="page" id="page-history" style="display: none;">
+            <div class="navbar"><h1>History</h1></div>
+            <div class="placeholder-content">
+                <p>🚧 Coming soon — run history will show up here.</p>
+            </div>
+        </div>
 
+        <div class="page" id="page-analysis" style="display: none;">
+            <div class="navbar"><h1>AI Analysis</h1></div>
+            <div class="placeholder-content">
+                <p>🚧 Coming soon.</p>
+            </div>
+        </div>
+
+        <div class="page" id="page-settings" style="display: none;">
+            <div class="navbar"><h1>Settings</h1></div>
+            <div class="placeholder-content">
+                <p>🚧 Coming soon.</p>
+            </div>
+        </div>
 
     </div>
-
-
-
 </div>
 
-
-
+<script src="projects.js"></script>
 <script src="script.js"></script>
 
-
 </body>
-
 </html>
