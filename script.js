@@ -124,6 +124,19 @@ const errorFix = document.getElementById("errorFix");
 
 const stdinInput = document.getElementById("stdinInput");
 
+const fixItBtn = document.getElementById("fixItBtn");
+
+const qualityCard = document.getElementById("qualityCard");
+const scoreCircle = document.getElementById("scoreCircle");
+const readabilityBar = document.getElementById("readabilityBar");
+const readabilityVal = document.getElementById("readabilityVal");
+const efficiencyBar = document.getElementById("efficiencyBar");
+const efficiencyVal = document.getElementById("efficiencyVal");
+const bestPracticesBar = document.getElementById("bestPracticesBar");
+const bestPracticesVal = document.getElementById("bestPracticesVal");
+
+let pendingFixedCode = null;
+
 
 
 
@@ -189,6 +202,10 @@ runBtn.addEventListener("click", async () => {
     suggestions.textContent = "";
 
     errorFix.textContent = "";
+
+    pendingFixedCode = null;
+    fixItBtn.style.display = "none";
+    qualityCard.style.display = "none";
 
 
 
@@ -371,6 +388,57 @@ runBtn.addEventListener("click", async () => {
         }
 
 
+        // ===============================
+        // Fix It For Me — button
+        // ===============================
+
+        if (
+            data.ai_error_fix &&
+            typeof data.ai_error_fix.corrected_code === "string" &&
+            data.ai_error_fix.corrected_code.trim() !== ""
+        ) {
+
+            pendingFixedCode = data.ai_error_fix.corrected_code;
+            fixItBtn.style.display = "inline-block";
+
+        } else {
+
+            pendingFixedCode = null;
+            fixItBtn.style.display = "none";
+
+        }
+
+
+        // ===============================
+        // Code Quality Score
+        // ===============================
+
+        if (typeof data.quality_score === "number") {
+
+            qualityCard.style.display = "block";
+
+            scoreCircle.style.setProperty("--score", data.quality_score);
+            scoreCircle.textContent = data.quality_score;
+
+            const breakdown = data.quality_breakdown || {};
+
+            const setBar = (bar, val, valEl) => {
+                const safeVal = typeof val === "number" ? val : 0;
+                bar.style.width = safeVal + "%";
+                valEl.textContent = typeof val === "number" ? val : "--";
+            };
+
+            setBar(readabilityBar, breakdown.readability, readabilityVal);
+            setBar(efficiencyBar, breakdown.efficiency, efficiencyVal);
+            setBar(bestPracticesBar, breakdown.best_practices, bestPracticesVal);
+
+        } else {
+
+            qualityCard.style.display = "none";
+
+        }
+
+
 
     }
 
@@ -416,6 +484,30 @@ runBtn.addEventListener("click", async () => {
 
 });
 
+
+
+// ===============================
+// Fix It For Me — click handler
+// ===============================
+
+if (fixItBtn) {
+
+    fixItBtn.addEventListener("click", () => {
+
+        if (!editor || !pendingFixedCode) {
+            return;
+        }
+
+        editor.setValue(pendingFixedCode);
+
+        pendingFixedCode = null;
+        fixItBtn.style.display = "none";
+
+        output.textContent = "Fix applied. Click ▶ Run Code to test it.";
+
+    });
+
+}
 
 
 // ===============================

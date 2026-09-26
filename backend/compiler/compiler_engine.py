@@ -41,7 +41,9 @@ def compile_code(code, language, user_input=""):
                 "ai_error_fix": ai_result["error_fix"] if ai_result else analyze_error(
                     error_details,
                     code
-                )
+                ),
+                "quality_score": ai_result["quality_score"] if ai_result else None,
+                "quality_breakdown": ai_result["quality_breakdown"] if ai_result else None
             }
 
         # Step 3 : Semantic Analysis
@@ -66,12 +68,16 @@ def compile_code(code, language, user_input=""):
             suggestions = ai_result["suggestions"]
             explanation = ai_result["explanation"]
             error_fix = ai_result["error_fix"]
+            quality_score = ai_result["quality_score"]
+            quality_breakdown = ai_result["quality_breakdown"]
 
         else:
 
             suggestions = generate_suggestion(code)
             explanation = explain_code(code)
             error_fix = analyze_error(error_details, code) if error_details else None
+            quality_score = None
+            quality_breakdown = None
 
         return {
 
@@ -89,7 +95,11 @@ def compile_code(code, language, user_input=""):
 
             "ai_explanation": explanation,
 
-            "ai_error_fix": error_fix
+            "ai_error_fix": error_fix,
+
+            "quality_score": quality_score,
+
+            "quality_breakdown": quality_breakdown
 
         }
 

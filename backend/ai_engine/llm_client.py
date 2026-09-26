@@ -73,7 +73,14 @@ Respond with ONLY a valid JSON object (no markdown fences, no extra text) in exa
   "error_fix": {{
     "problem": "one-line summary of what went wrong",
     "reason": "why this error happens, in simple terms",
-    "fix": "concrete step the student should take to fix it"
+    "fix": "concrete step the student should take to fix it",
+    "corrected_code": "the FULL corrected version of the student's code, ready to run as-is"
+  }},
+  "quality_score": 0,
+  "quality_breakdown": {{
+    "readability": 0,
+    "efficiency": 0,
+    "best_practices": 0
   }}
 }}
 
@@ -81,6 +88,9 @@ Rules:
 - "suggestions": 2-4 concise, specific tips (not generic advice).
 - "explanation": 2-5 bullet-style plain-English lines covering the main logic (not a line-by-line dump).
 - "error_fix": only include meaningful content if there IS an error. If there is no error, set "error_fix" to null.
+- "corrected_code" inside "error_fix": ONLY include this if there is an error. It must be the complete, corrected {language} source code (not a diff, not a snippet) that fixes the reported error while preserving the student's original logic/style as much as possible. Omit or set to null when there is no error.
+- "quality_score": an integer 0-100 rating the OVERALL code quality (always provide this, error or not -- if the code doesn't even run, judge based on what's written).
+- "quality_breakdown": three integers 0-100 for "readability" (naming, formatting, clarity), "efficiency" (algorithmic/runtime efficiency, redundant work), and "best_practices" (idiomatic {language}, error handling, structure).
 - Keep language simple and beginner-friendly, since the user is a student.
 - Return JSON only. No commentary before or after."""
 
@@ -101,6 +111,8 @@ def _parse_ai_json(raw_text):
     suggestions = data.get("suggestions") or []
     explanation = data.get("explanation") or []
     error_fix = data.get("error_fix")
+    quality_score = data.get("quality_score")
+    quality_breakdown = data.get("quality_breakdown")
 
     if not isinstance(suggestions, list):
         suggestions = [str(suggestions)]
@@ -108,10 +120,30 @@ def _parse_ai_json(raw_text):
     if not isinstance(explanation, list):
         explanation = [str(explanation)]
 
+    # quality_score ko safe integer 0-100 mein clamp karte hain
+    try:
+        quality_score = int(quality_score)
+        quality_score = max(0, min(100, quality_score))
+    except (TypeError, ValueError):
+        quality_score = None
+
+    if not isinstance(quality_breakdown, dict):
+        quality_breakdown = None
+    else:
+        cleaned = {}
+        for key in ("readability", "efficiency", "best_practices"):
+            try:
+                cleaned[key] = max(0, min(100, int(quality_breakdown.get(key))))
+            except (TypeError, ValueError):
+                cleaned[key] = None
+        quality_breakdown = cleaned
+
     return {
         "suggestions": suggestions,
         "explanation": explanation,
-        "error_fix": error_fix
+        "error_fix": error_fix,
+        "quality_score": quality_score,
+        "quality_breakdown": quality_breakdown
     }
 
 

@@ -73,17 +73,35 @@
                         <div class="result-card">
                             <h3>🛠 AI Error Fix</h3>
                             <pre id="errorFix"></pre>
+                            <button id="fixItBtn" class="fix-it-btn" style="display:none;">✨ Fix it for me</button>
                         </div>
                     </div>
                 </div>
 
                 <div class="panel">
-                    <h3>AI Suggestions</h3>
-                    <ul id="suggestionList">
-                        <li>Use meaningful variable names.</li>
-                        <li>Avoid unnecessary loops.</li>
-                        <li>Optimize nested iterations.</li>
-                    </ul>
+                    <div class="result-card" id="qualityCard" style="display:none;">
+                        <h3>📊 Code Quality Score</h3>
+                        <div class="quality-score-row">
+                            <div class="score-circle" id="scoreCircle">--</div>
+                            <div class="quality-bars">
+                                <div class="quality-bar-item">
+                                    <span class="quality-label">Readability</span>
+                                    <div class="quality-bar-track"><div class="quality-bar-fill" id="readabilityBar"></div></div>
+                                    <span class="quality-value" id="readabilityVal">--</span>
+                                </div>
+                                <div class="quality-bar-item">
+                                    <span class="quality-label">Efficiency</span>
+                                    <div class="quality-bar-track"><div class="quality-bar-fill" id="efficiencyBar"></div></div>
+                                    <span class="quality-value" id="efficiencyVal">--</span>
+                                </div>
+                                <div class="quality-bar-item">
+                                    <span class="quality-label">Best Practices</span>
+                                    <div class="quality-bar-track"><div class="quality-bar-fill" id="bestPracticesBar"></div></div>
+                                    <span class="quality-value" id="bestPracticesVal">--</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
