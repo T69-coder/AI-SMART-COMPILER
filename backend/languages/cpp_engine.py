@@ -3,7 +3,7 @@ import os
 import tempfile
 
 
-def run_cpp(code):
+def run_cpp(code, user_input=""):
     try:
         # Har request ke liye alag temporary folder banate hain
         # taaki 2 users ek saath run karein to files overwrite na hon
@@ -33,6 +33,7 @@ def run_cpp(code):
 
             run_process = subprocess.run(
                 [executable_path],
+                input=user_input,
                 capture_output=True,
                 text=True,
                 timeout=5

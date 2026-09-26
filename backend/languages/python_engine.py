@@ -4,7 +4,7 @@ import os
 import tempfile
 
 
-def run_python(code):
+def run_python(code, user_input=""):
 
     try:
 
@@ -23,6 +23,7 @@ def run_python(code):
             # (3) timeout laga sakte hain jo pehle bilkul nahi tha
             run_process = subprocess.run(
                 [sys.executable, source_path],
+                input=user_input,
                 capture_output=True,
                 text=True,
                 timeout=5,

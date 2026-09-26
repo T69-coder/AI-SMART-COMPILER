@@ -20,6 +20,7 @@ app.add_middleware(
 class CodeRequest(BaseModel):
     code: str
     language: str
+    input: str = ""
 
 
 @app.get("/")
@@ -34,7 +35,8 @@ def compile_program(request: CodeRequest):
 
     result = compile_code(
         request.code,
-        request.language
+        request.language,
+        request.input
     )
 
     return {

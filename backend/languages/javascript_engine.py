@@ -3,7 +3,7 @@ import os
 import tempfile
 
 
-def run_javascript(code):
+def run_javascript(code, user_input=""):
 
     try:
 
@@ -19,6 +19,7 @@ def run_javascript(code):
             # Run JavaScript using Node.js
             run_process = subprocess.run(
                 ["node", source_path],
+                input=user_input,
                 capture_output=True,
                 text=True,
                 timeout=5

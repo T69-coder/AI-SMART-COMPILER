@@ -122,6 +122,8 @@ const suggestions = document.getElementById("aiSuggestions");
 
 const errorFix = document.getElementById("errorFix");
 
+const stdinInput = document.getElementById("stdinInput");
+
 
 
 
@@ -217,7 +219,8 @@ runBtn.addEventListener("click", async () => {
 
                 body: JSON.stringify({
                     code: editor.getValue(),
-                    language: language.value
+                    language: language.value,
+                    input: stdinInput ? stdinInput.value : ""
                 }),
 
                 signal: controller.signal

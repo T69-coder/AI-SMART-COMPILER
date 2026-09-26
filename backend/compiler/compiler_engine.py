@@ -9,7 +9,7 @@ from ai_engine.error_ai import analyze_error
 from ai_engine.llm_client import get_ai_review
 
 
-def compile_code(code, language):
+def compile_code(code, language, user_input=""):
 
     try:
 
@@ -48,7 +48,7 @@ def compile_code(code, language):
         semantic_result = analyze(tokens)
 
         # Step 4 : Execute Code
-        output = run_code(language, code)
+        output = run_code(language, code, user_input)
 
         # Step 5 : Runtime error hua kya? AI ko batane ke liye details nikaalo
         error_details = None

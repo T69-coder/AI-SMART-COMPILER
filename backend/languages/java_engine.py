@@ -3,7 +3,7 @@ import os
 import tempfile
 
 
-def run_java(code):
+def run_java(code, user_input=""):
 
     try:
 
@@ -38,6 +38,7 @@ def run_java(code):
             # Run Java
             run_process = subprocess.run(
                 ["java", "Main"],
+                input=user_input,
                 capture_output=True,
                 text=True,
                 timeout=5,
